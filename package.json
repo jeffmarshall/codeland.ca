@@ -1,5 +1,5 @@
 {
-  "name": "application-name",
+  "name": "codeland.ca",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -9,5 +9,24 @@
     "express": "3.4.8",
     "jade": "*",
     "stylus": "*"
-  }
+  },
+  "description": "Canadian Programmer Jobs and Events",
+  "main": "app.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/classy/codeland.ca.git"
+  },
+  "keywords": [
+    "canadian",
+    "programmer",
+    "jobs",
+    "events"
+  ],
+  "author": "Jeff Marshall <jeff@classy.co>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/classy/codeland.ca/issues"
+  },
+  "homepage": "https://github.com/classy/codeland.ca"
 }
