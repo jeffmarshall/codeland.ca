@@ -1,0 +1,84 @@
+mixin job_form(job_variable, form_name)
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".position.$invalid && ("+ form_name +".position.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="job-form-position") Job Position
+        input#job-form-position.form-control(
+          type="text"
+          name="position"
+          required
+          placeholder="eg. CSS Ninja Wizardmaster Rockstar Guru-san"
+          ng-model=job_variable +".position"
+        )
+
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".employer.$invalid && ("+ form_name +".employer.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="job-form-employer") Employer
+        input#job-form-employer.form-control(
+          type="text"
+          name="employer"
+          required
+          placeholder="eg. Cyberdyne Systems, NSA"
+          ng-model=job_variable +".employer"
+        )
+  .row
+    .col-md-6
+      .form-group(ng-class="{ 'has-error': "+ form_name +".city.$invalid && ("+ form_name +".city.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="job-form-city") City
+        select#job-form-city.form-control(
+          type="text"
+          name="city"
+          required
+          placeholder="eg. Cyberdyne Systems, NSA"
+          ng-model=job_variable +".city"
+        )
+          option(value="mtl") Montreal
+          option(value="to") Toronto
+
+    .col-md-6
+      .form-group
+        label.control-label(for="job-form-hood") Neighborhood
+        input#job-form-hood.form-control(
+          type="text"
+          placeholder="eg. Old Port, Distillery District, Gastown"
+          ng-model=job_variable +".neighborhood"
+        )
+
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".description.$invalid && ("+ form_name +".description.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="job-form-description")
+          | Description&nbsp;
+          a(
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Markdown is supported here"
+          )
+            i.glyphicon.glyphicon-flash
+        textarea#job-form-description.form-control(
+          name="description"
+          ng-model=job_variable +".description"
+          placeholder="Say something about the position, the project, the organization, the working conditions, etc."
+          required
+          rows="8"
+        )
+
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".instructions.$invalid && ("+ form_name +".instructions.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="job-form-instructions")
+          | How to Apply&nbsp;
+          a(
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Markdown is supported here"
+          )
+            i.glyphicon.glyphicon-flash
+        textarea#job-form-instructions.form-control(
+          name="instructions"
+          ng-model=job_variable +".instructions"
+          placeholder="eg. Send a link to your github to [me@mycompany.com](mailto:me@mycompany.com)"
+          rows="2"
+          required
+        )

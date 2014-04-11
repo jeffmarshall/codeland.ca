@@ -1,0 +1,34 @@
+.container
+  .page-header
+    h1 Jobs
+
+  .toolbar.tabular
+    form.search
+      input.form-control(
+        type="search"
+        ng-model="search_text"
+        placeholder="Filter Jobs"
+      )
+    .job-list-options
+      .btn-toolbar
+        .btn-group
+          a.btn.btn-primary(
+            href="/post-job"
+          ) Post a Job
+
+
+
+  ol.job-list.unstyled.async
+    li(ng-repeat="job in jobs.rows | filter:search_text", id="{{ job.id }}")
+      .position
+        a(href="/job/{{ job.id }}")
+          | {{ job.doc.position }}
+      .details.small
+        span.neighborhood
+          |  {{ job.doc.employer }}
+          span(ng-if="job.doc.neighborhood") &nbsp;in {{ job.doc.neighborhood }}
+        time.timeago(
+          datetime="{{ parse_date(job.doc.creation_date) }}"
+          ng-init="from_now = moment(job.doc.creation_date).fromNow()"
+        )
+          | &nbsp;&mdash; posted {{ from_now }}

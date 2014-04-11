@@ -1,0 +1,97 @@
+mixin event_form(event_variable, form_name)
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".name.$invalid && ("+ form_name +".name.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="event-form-name") Event Name
+        input#event-form-name.form-control(
+          type="text"
+          name="name"
+          required
+          placeholder="eg. Hacking Health, EdTech Montreal"
+          ng-model=event_variable +".name"
+        )
+  .row
+    .col-md-6
+      .form-group(
+        ng-class="{ 'has-error': "+ form_name +".start.$invalid && ("+ form_name +".start.$dirty || "+ form_name +".submitted) }"
+      )
+        label.control-label(for="event-form-start") Starting Date and Time
+        input#event-form-start.form-control(
+          type="datetime-local"
+          name="start"
+          placeholder="yyyy-MM-ddTHH:mm"
+          required
+          ng-model=event_variable +".start"
+        )
+        .help-block(ng-switch on=form_name +".start.$valid")
+          .moment(
+            ng-switch-when="true"
+            ng-bind="moment("+ event_variable +".start.getTime()).fromNow()"
+          )
+          span.format(
+            ng-switch-default
+            ng-init="example = moment().startOf('day').add('days', 1).add('hours', 18).add('minutes', 30).format('YYYY-MM-DDTHH:mm')"
+          )
+            | (eg. '{{ example }}')
+
+
+    .col-md-6
+      .form-group(ng-class="{ 'has-error': "+ form_name +".venue.$invalid && ("+ form_name +".venue.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="event-form-venue") Venue
+        input#event-form-venue.form-control(
+          type="text"
+          placeholder="eg. Notman House, Brutopia"
+          ng-model=event_variable +".venue"
+        )
+
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".description.$invalid && ("+ form_name +".description.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="event-form-description")
+          | Description&nbsp;
+          a(
+            data-toggle="tooltip"
+            data-placement="right"
+            title="Markdown is supported here"
+          )
+            i.glyphicon.glyphicon-flash
+        textarea#event-form-description.form-control(
+          name="description"
+          ng-model=event_variable +".description"
+          placeholder="Give a brief summary of what the event is about, and what to expect."
+          required
+          rows="8"
+        )
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".homepage.$invalid && ("+ form_name +".homepage.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="event-form-homepage") Event Homepage
+        input#event-form-homepage.form-control(
+          name="homepage"
+          type="url"
+          placeholder="eg. http://montrealpython.org/"
+          ng-model=event_variable +".homepage"
+        )
+
+  .row
+    .col-md-12
+      .form-group
+        .well.well-sm
+          label.control-label(for="event-form-seeking-sponsors")
+            input#event-form-seeking-sponsors(
+              type="checkbox"
+              ng-model=event_variable +".seeking_sponsors"
+            )
+            | &nbsp;&nbsp;This event could use some sponsors
+  .row
+    .col-md-12
+      .form-group(ng-class="{ 'has-error': "+ form_name +".city.$invalid && ("+ form_name +".city.$dirty || "+ form_name +".submitted) }")
+        label.control-label(for="event-form-city") City
+        select#event-form-city.form-control(
+          type="text"
+          name="city"
+          required
+          ng-model=event_variable +".city"
+        )
+          option(value="mtl") Montreal
+          option(value="to") Toronto

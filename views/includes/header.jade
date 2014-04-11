@@ -1,0 +1,142 @@
+div(ng-controller="user")
+  .navbar.navbar-inverse.navbar-static-top(
+    role="navigation"
+  )
+    .container
+      .navbar-header
+        button.navbar-toggle(
+          data-toggle="collapse"
+          data-target="#navbar-collapse"
+        )
+          span.sr-only Toggle Navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        a.navbar-brand(href="/")
+          span.branding Codeland
+          span.selected-city(ng-if="selected_city") &nbsp;{{ selected_city }}
+
+      #navbar-collapse.collapse.navbar-collapse
+        ul.nav.navbar-nav
+          li(ng-class="{ active: Page.name() == 'events' }")
+            a(href="/events") Events
+          li(ng-class="{ active: Page.name() == 'jobs' }")
+            a(href="/jobs") Jobs
+        ul.auth.nav.navbar-nav.navbar-right(ng-show="session.userCtx")
+          li.dropdown(on="!!session.userCtx.name" ng-switch)
+            a(
+              data-toggle="modal"
+              data-target="#authModal"
+              ng-switch-when="false"
+            ) Login or Sign up
+            a(ng-switch-when="true" data-toggle="dropdown")
+              | {{ session.userCtx.name }}&nbsp;
+              i.caret
+            ul.dropdown-menu(role="menu" aria-labelledby="user-dropdown-menu")
+              li(role="presentation")
+                a(
+                  href="/post-event"
+                  role="menuitem"
+                  tabindex="-1"
+                ) Post an Event
+              li(role="presentation")
+                a(
+                  href="/post-job"
+                  role="menuitem"
+                  tabindex="-1"
+                ) Post a Job
+              li.divider(role="presentation")
+              li(role="presentation")
+                a(role="menuitem" tabindex="-1" ng-click="logout()") Logout
+
+  #authModal.modal.fade
+    .modal-dialog
+      .modal-content
+        ul.auth.nav.nav-tabs
+          li.active
+            a(href="#login-pane", target="_self", data-toggle="tab") Login
+          li
+            a(href="#signup-pane", target="_self", data-toggle="tab") Sign Up
+
+        .tab-content
+          #login-pane.tab-pane.active
+            form(name="login_form", role="form", ng-submit="login()")
+              .modal-body
+                .alert.alert-danger(ng-if="!!login_failure")
+                  span(ng-if="login_failure.status == 401")
+                    | Username or Password is incorrect
+                .form-group(
+                  ng-class="{ 'has-error': login_form.name.$invalid && login_form.name.$dirty }"
+                )
+                  label.control-label(for="login-username-input") Username
+                  input#login-username-input.form-control(
+                    type="text"
+                    name="name"
+                    required
+                    ng-model="user.name"
+                  )
+                .form-group(
+                  ng-class="{ 'has-error': login_form.password.$invalid && login_form.password.$dirty }"
+                )
+                  label.control-label(for="login-password-input") Password
+                  input#login-password-input.form-control(
+                    name="password"
+                    type="password"
+                    required
+                    ng-model="user.password"
+                  )
+              .modal-footer
+                a.btn.btn-default(data-dismiss="modal") Cancel
+                input#login-button.btn.btn-primary(
+                  type="submit"
+                  value="Login"
+                  data-loading-text="Logging in"
+                  data-complete-text="Logged in!"
+                )
+
+          #signup-pane.tab-pane
+            form(name="signup_form" role="form" ng-submit="signup()")
+              .modal-body
+                .alert.alert-danger(ng-if="!!signup_failure")
+                  span(ng-if="signup_failure.status == 409")
+                    | This username is taken.
+                .form-group(
+                  ng-class="{ 'has-error': (signup_form.name.$invalid && signup_form.name.$dirty) || signup_failure.status == 409 }"
+                )
+                  label.control-label(for="signup-username-input") Username
+                  input#signup-username-input.form-control(
+                    name="name"
+                    type="text"
+                    required
+                    ng-model="user.name"
+                  )
+                .form-group(
+                  ng-class="{ 'has-error': signup_form.password.$invalid && signup_form.password.$dirty }"
+                )
+                  label.control-label(for="signup-password-input") Password
+                  input#signup-password-input.form-control(
+                    name="password"
+                    type="password"
+                    required
+                    ng-model="user.password"
+                  )
+                .form-group(
+                  ng-class="{ 'has-error': signup_form.email.$invalid && signup_form.email.$dirty }"
+                )
+                  label.control-label(for="signup-email-input") Email
+                  input#signup-email-input.form-control(
+                    name="email"
+                    type="email"
+                    required
+                    ng-model="user.email"
+                  )
+
+              .modal-footer
+                a.btn.btn-default(data-dismiss="modal") Cancel
+                input#signup-button.btn.btn-primary(
+                  type="submit"
+                  value="Sign Up"
+                  data-loading-text="Please wait..."
+                  data-complete-text="Signed up!"
+                  data-failure-text="Error!"
+                )

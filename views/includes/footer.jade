@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-md-12
+      footer#site-footer
+        .row
+          .col-sm-2
+            span.choose-city
+              select(ng-model="selected_city")
+                option(value="mtl") Montreal
+                option(value="to") Toronto
+          .col-sm-10
+            span.contact.hidden-xs.pull-right
+              | Questions? Comments?&nbsp;
+              a(href="mailto:contact@codeland.ca") contact@codeland.ca

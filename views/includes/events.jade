@@ -1,0 +1,35 @@
+.container
+  .page-header
+    h1 Events
+
+  .toolbar.tabular
+    form.search
+      input.form-control(
+        type="search"
+        ng-model="search_text"
+        placeholder="Filter Events"
+      )
+    .event-list-options
+      .btn-toolbar
+        .btn-group
+          a.btn.btn-primary(
+            href="/post-event"
+          ) Post an Event
+
+
+
+  ol.event-list.unstyled.async
+    li(ng-repeat="event in events.rows | filter:search_text", id="{{ event.id }}")
+      .name
+        a(href="/event/{{ event.id }}")
+          | {{ event.doc.name }}
+      .details.small
+        span.start(
+          ng-bind="moment(event.doc.start).calendar()"
+        )
+        time.timeago(
+          datetime="{{ parse_date(event.doc.creation_date) }}"
+          ng-init="from_now = moment(event.doc.creation_date).fromNow()"
+        )
+          | &mdash; posted {{ from_now }}
+

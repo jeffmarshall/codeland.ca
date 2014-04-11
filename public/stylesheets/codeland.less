@@ -1,0 +1,105 @@
+@import "variables.less";
+@import "prefixer.less";
+@import "../components/bootstrap/less/mixins.less";
+
+.async:empty {
+  height: 8em;
+
+  &.async-lg { height: 30em }
+}
+
+.unstyled {
+  list-style: none;
+  padding: 0;
+}
+
+.modal-content > .nav-tabs.auth {
+  padding: 15px 15px 0;
+}
+
+.job-list, .event-list {
+  border-top: 1px solid @page-header-border-color;
+  margin: @line-height-computed 0;
+
+  li {
+    border-bottom: 1px solid @page-header-border-color;
+    padding: 1em 0;
+
+    &:last-child {
+      border-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    &:hover {
+      time {
+        visibility: visible;
+        .opacity(1);
+      }
+    }
+
+    time {
+      visibility: hidden;
+      .opacity(0);
+      .transition(opacity 0.2s ease-in-out);
+    }
+  }
+}
+
+.component {
+  margin-bottom: @line-height-computed;
+}
+
+.toolbar {
+  // padding: @padding-small-horizontal 0;
+}
+
+.tabular {
+  display: table;
+
+  > * {
+    display: table-cell;
+    padding-right: @padding-small-horizontal;
+    vertical-align: middle;
+    white-space: nowrap;
+
+    &.search, &.location { width: 100%; }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+time { color: @gray-light }
+
+.btn {
+  .transition(0.2s all ease-in-out);
+}
+
+.navbar-brand, .city-nav {
+  font-family: @headings-font-family;
+  font-weight: 200;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.branding {
+  color: @navbar-inverse-brand-hover-color;
+}
+
+footer {
+  margin-top: 40px;
+}
+
+#site-footer {
+  border-top: 1px solid @page-header-border-color;
+  padding: 20px 0 40px;
+}
+
+.markdown {
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-weight: 300;
+  }
+}
+
+.well label { margin: 0 }

@@ -1,0 +1,9 @@
+.container(ng-if="alerts.length")
+  .row
+    .col-md-12
+      ul#site-alerts.alerts.unstyled
+        li.alert(
+          ng-repeat="alert in alerts" ng-class="'alert-'+ alert.type"
+        )
+          button.close(data-dismiss="alert" aria-hidden="true") &times;
+          p {{ alert.message }}

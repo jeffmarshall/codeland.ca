@@ -1,0 +1,25 @@
+{
+  "name": "codeland.ca",
+  "version": "0.0.0",
+  "homepage": "http://codeland.ca",
+  "authors": [
+    "Jeff Marshall <jeff@classy.co>"
+  ],
+  "description": "Canadian Programmer Jobs and Events",
+  "main": "server.js",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-payments": "https://github.com/laurihy/angular-payments.git",
+    "angular-markdown-directive": "~0.2.0",
+    "moment": "2.5.1",
+    "bootstrap": "~3.1.1"
+  }
+}

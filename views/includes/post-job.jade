@@ -1,0 +1,88 @@
+include ../mixins/job-form
+.container
+  .row
+    .col-md-12
+      .page-header
+        h1
+          | Post a Job
+          small &nbsp;$20 for 30 Days
+  form.clearfix.component(
+    role="form"
+    stripe-form="postJob"
+    name="post_job"
+    novalidate
+  )
+    .row
+      .col-md-12
+        .alert.alert-danger(
+          ng-if="post_job.failure_reason"
+        ) {{ post_job.failure_reason }}
+
+        +job_form('job', 'post_job')
+    .row
+      .col-md-12
+        h2 Payment
+    .row
+      .col-md-6
+        p
+          | Credit card payments are processed using Stripe's web API.
+      .col-md-6
+        .panel.panel-default
+          .panel-body
+            .row
+              .form-group.col-sm-12(ng-class="{ 'has-error': post_job.card.$invalid && (post_job.card.$dirty || post_job.submitted) }")
+                label.control-label(for="new-payment-card") Card Number
+                input#new-payment-card.form-control(
+                  name="card"
+                  ng-model="number"
+                  payments-validate="card"
+                  payments-format="card"
+                  type="text"
+                  placeholder="•••• •••• •••• ••••"
+                  required
+                )
+            .row
+              .form-group.col-xs-6(ng-class="{ 'has-error': post_job.cvc.$invalid && (post_job.cvc.$dirty || post_job.submitted) }")
+                label.control-label(for="new-payment-cvc") CVC
+                input#new-payment-cvc.form-control(
+                  name="cvc"
+                  ng-model="cvc"
+                  payments-validate="cvc"
+                  payments-format="cvc"
+                  type="text"
+                  placeholder="•••"
+                  required
+                )
+              .form-group.col-xs-6(ng-class="{ 'has-error': post_job.expiry.$invalid && (post_job.expiry.$dirty || post_job.submitted) }")
+                label.control-label(for="new-payment-expiry") Expiry
+                input#new-payment-expiry.form-control(
+                  name="expiry"
+                  ng-model="expiry"
+                  payments-validate="expiry"
+                  payments-format="expiry"
+                  type="text"
+                  placeholder="MM/YY"
+                  required
+                )
+
+    .row
+      .col-md-12
+        .alert.alert-warning(ng-if="!session.userCtx.name")
+          | Please&nbsp;
+          a(
+            data-toggle="modal"
+            data-target="#authModal"
+          ) Login or Sign-up&nbsp;
+          | to continue.
+        .alert.alert-danger(ng-if="payment_error")
+          p {{ payment_error.message }}
+          button.close(data-dismiss="alert" aria-hidden="true") &times;
+        .btn-toolbar.pull-right
+          a.btn.btn-default(href="/") Cancel
+          input#pay-button.btn.btn-primary(
+            type="submit"
+            value="Pay $20"
+            data-error-text="Errors!"
+            data-loading-text="Processing"
+            ng-disabled="!session.userCtx.name"
+          )

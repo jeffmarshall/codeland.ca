@@ -1,0 +1,38 @@
+include ../mixins/event-form
+.container
+  .row
+    .col-md-12
+      .page-header
+        h1
+          | Post an Event
+  form.clearfix.component(
+    role="form"
+    stripe-form="postEvent"
+    name="post_event"
+    novalidate
+  )
+    .row
+      .col-md-12
+        .alert.alert-danger(
+          ng-if="post_event.failure_reason"
+        ) {{ post_event.failure_reason }}
+
+        +event_form('event', 'post_event')
+    .row
+      .col-md-12
+        .alert.alert-warning(ng-if="!session.userCtx.name")
+          | Please&nbsp;
+          a(
+            data-toggle="modal"
+            data-target="#authModal"
+          ) Login or Sign-up&nbsp;
+          | to continue.
+        .btn-toolbar.pull-right
+          a.btn.btn-default(href="/") Cancel
+          input#post-button.btn.btn-primary(
+            type="submit"
+            value="Post Event"
+            data-error-text="Errors!"
+            data-loading-text="Processing"
+            ng-disabled="!session.userCtx.name"
+          )

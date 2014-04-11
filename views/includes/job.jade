@@ -1,0 +1,115 @@
+include ../mixins/job-form
+.container
+  .row
+    .col-md-12
+      .alert.alert-info(ng-if="job_is_draft")
+        | This is a preview.&nbsp;
+        a(ng-click="cancel_preview()") Cancel
+        | &nbsp;or&nbsp;
+        a(ng-click="save()") Save
+        | .
+        button.close(data-dismiss="alert" aria-hidden="true") &times;
+
+      .page-header(ng-cloak)
+        h1(ng-show="job.position")
+          | {{ job.position }}
+          .small
+            | at {{ job.employer }}
+      .description.markdown.component.async.async-lg(
+        btf-markdown="job.description"
+      )
+
+      .instructions.component(ng-if="!!job.instructions")
+        h3 How to Apply
+        div(btf-markdown="job.instructions")
+
+      footer.btn-toolbar
+        .btn-group
+          a.btn.btn-default(href="javascript: history.back(-1)")
+            i.glyphicon.glyphicon-chevron-left
+            | &nbsp;Back
+
+        .btn-group(ng-if="session.userCtx.name == job.creator_name")
+          .dropdown
+            button.btn.btn-primary(data-toggle="dropdown")
+              i.glyphicon.glyphicon-cog
+            ul.dropdown-menu(
+              role="menu"
+              aria-labelledby="post_creator_options"
+            )
+              li
+                a(
+                  data-toggle="modal"
+                  data-target="#EditJobModal"
+                )
+                  i.glyphicon.glyphicon-edit
+                  | &nbsp;Edit
+              li
+                a(
+                  data-toggle="modal"
+                  data-target="#DeleteJobModal"
+                )
+                  i.glyphicon.glyphicon-remove
+                  | &nbsp;Delete
+
+#EditJobModal.modal.fade(
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="EditJobModal"
+  aria-hidden="true"
+)
+  .modal-dialog
+    .modal-content
+      form(role="form" ng-submit="save()" name="editJob")
+        .modal-header
+          button.close(
+            data-dismiss="modal"
+            aria-hidden="true"
+            type="button"
+          )
+            | &times;
+          h4.modal-title Editing '{{ job.position }}' Post
+
+        .modal-body
+          +job_form('job_draft', 'editJob')
+
+        .modal-footer
+          a.btn.btn-default.pull-left(
+            data-dismiss="modal"
+            ng-click="cancel_preview()"
+          )
+            | Cancel
+          a.btn.btn-info(
+            ng-click="preview()"
+            ng-disabled="!editJob.$dirty"
+          ) Preview
+          button.btn.btn-primary(
+            type="submit"
+            ng-disabled="!editJob.$dirty"
+          ) Save
+
+#DeleteJobModal.modal.fade(
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="DeleteJobModal"
+  aria-hidden="true"
+)
+  .modal-dialog.modal-sm
+    .modal-content
+      .modal-header
+        button.close(
+          data-dismiss="modal"
+          aria-hidden="true"
+          type="button"
+        )
+          | &times;
+        h4.modal-title Delete '{{ job.position }}' Post
+      .modal-body
+        p Are you sure you want to delete this job posting?
+      .modal-footer
+        a.btn.btn-default(
+          data-dismiss="modal"
+        ) No
+        a#DeleteJobButton.btn.btn-danger(
+          ng-click="delete_job()"
+        ) Yes, delete this job post
