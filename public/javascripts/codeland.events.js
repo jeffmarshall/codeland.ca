@@ -55,7 +55,8 @@ angular.module('events', [
           $location.url('/event/'+ result.id);
         }, function(failure){
           if (failure.data && failure.data.reason){
-            $scope.event.failure_reason = failure.data.reason;
+            $scope.failure_reason = failure.data.reason;
+            errorButtonFlash();
           }
         });
       }
@@ -64,7 +65,9 @@ angular.module('events', [
   .controller(
     'EventList',
     function EventList($rootScope, $scope, Page, db){
-      Page.setTitle('Programmer Events');
+      Page.setTitle(
+        $rootScope.cities[$rootScope.selected_city] +' Tech Events'
+      );
       Page.setName('events');
 
       $scope.moment = moment;
@@ -95,10 +98,6 @@ angular.module('events', [
       }
 
       get_events();
-
-      $rootScope.$watch('selected_city', function(old_val, new_val){
-        if (new_val != old_val) get_events();
-      });
     }
   )
   .controller(
@@ -156,6 +155,16 @@ angular.module('events', [
             return;
           }
 
+          $post_button = $('#SaveEventButton');
+
+          function errorButtonFlash(){
+            $post_button.button('error').addClass('btn-danger');
+
+            setTimeout(function(){
+              $post_button.button('reset').removeClass('btn-danger');
+            }, 2000);
+          }
+
           db.update({
             _id: $scope.event_draft._id,
             _rev: $scope.event_draft._rev,
@@ -164,7 +173,7 @@ angular.module('events', [
             description: $scope.event_draft.description,
             name: $scope.event_draft.name,
             start: $scope.event_draft.start.getTime(),
-            city: $scope.event_draft.city,
+            city: $rootScope.selected_city,
             homepage: $scope.event_draft.homepage,
             seeking_sponsors: $scope.event_draft.seeking_sponsors,
             type: 'event',
@@ -175,6 +184,9 @@ angular.module('events', [
 
             $scope.editEvent.$setPristine();
             get_event();
+          }, function(failure){
+            $scope.failure_reason = failure.data.reason;
+            errorButtonFlash();
           });
         }
 
@@ -201,10 +213,6 @@ angular.module('events', [
             });
           });
         }
-
-        $rootScope.$watch('selected_city', function(old_val, new_val){
-          if (new_val != old_val) $location.url('/');
-        });
       }
     ]
   )

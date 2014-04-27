@@ -13,10 +13,6 @@ include ../mixins/event-form
   )
     .row
       .col-md-12
-        .alert.alert-danger(
-          ng-if="post_event.failure_reason"
-        ) {{ post_event.failure_reason }}
-
         +event_form('event', 'post_event')
     .row
       .col-md-12
@@ -27,6 +23,10 @@ include ../mixins/event-form
             data-target="#authModal"
           ) Login or Sign-up&nbsp;
           | to continue.
+        .alert.alert-danger(
+          ng-if="failure_reason"
+        ) {{ failure_reason }}
+
         .btn-toolbar.pull-right
           a.btn.btn-default(href="/") Cancel
           input#post-button.btn.btn-primary(

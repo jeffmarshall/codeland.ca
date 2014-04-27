@@ -29,7 +29,7 @@ include ../mixins/event-form
             i.glyphicon.glyphicon-chevron-left
             | &nbsp;Back
 
-        .btn-group(ng-if="session.userCtx.name == event.creator_name")
+        .btn-group(ng-if="session.userCtx.name == event.creator_name || session.userCtx.roles.indexOf('_admin') != -1")
           .dropdown
             button.btn.btn-primary(data-toggle="dropdown")
               i.glyphicon.glyphicon-cog
@@ -75,6 +75,7 @@ include ../mixins/event-form
 
         .modal-body
           +event_form('event_draft', 'editEvent')
+          .error.alert.alert-danger(ng-if="failure_reason") {{ failure_reason }}
 
         .modal-footer
           a.btn.btn-default.pull-left(
@@ -86,7 +87,7 @@ include ../mixins/event-form
             ng-click="preview()"
             ng-disabled="!editEvent.$dirty"
           ) Preview
-          button.btn.btn-primary(
+          button#SaveEventButton.btn.btn-primary(
             type="submit"
             ng-disabled="!editEvent.$dirty"
           ) Save

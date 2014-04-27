@@ -12,7 +12,7 @@ mixin job_form(job_variable, form_name)
         )
 
   .row
-    .col-md-12
+    .col-md-6
       .form-group(ng-class="{ 'has-error': "+ form_name +".employer.$invalid && ("+ form_name +".employer.$dirty || "+ form_name +".submitted) }")
         label.control-label(for="job-form-employer") Employer
         input#job-form-employer.form-control(
@@ -22,19 +22,6 @@ mixin job_form(job_variable, form_name)
           placeholder="eg. Cyberdyne Systems, NSA"
           ng-model=job_variable +".employer"
         )
-  .row
-    .col-md-6
-      .form-group(ng-class="{ 'has-error': "+ form_name +".city.$invalid && ("+ form_name +".city.$dirty || "+ form_name +".submitted) }")
-        label.control-label(for="job-form-city") City
-        select#job-form-city.form-control(
-          type="text"
-          name="city"
-          required
-          placeholder="eg. Cyberdyne Systems, NSA"
-          ng-model=job_variable +".city"
-        )
-          option(value="mtl") Montreal
-          option(value="to") Toronto
 
     .col-md-6
       .form-group

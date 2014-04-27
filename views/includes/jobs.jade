@@ -1,6 +1,6 @@
 .container
   .page-header
-    h1 Jobs
+    h1 Developer Jobs
 
   .toolbar.tabular
     form.search
@@ -18,17 +18,17 @@
 
 
 
-  ol.job-list.unstyled.async
+  ol.jobs.unstyled.async
     li(ng-repeat="job in jobs.rows | filter:search_text", id="{{ job.id }}")
       .position
         a(href="/job/{{ job.id }}")
-          | {{ job.doc.position }}
+          | {{ job.value.position }}
       .details.small
         span.neighborhood
-          |  {{ job.doc.employer }}
-          span(ng-if="job.doc.neighborhood") &nbsp;in {{ job.doc.neighborhood }}
+          |  {{ job.value.employer }}
+          span(ng-if="job.value.neighborhood") &nbsp;in {{ job.value.neighborhood }}
         time.timeago(
-          datetime="{{ parse_date(job.doc.creation_date) }}"
-          ng-init="from_now = moment(job.doc.creation_date).fromNow()"
+          datetime="{{ parse_date(job.value.creation_date) }}"
+          ng-init="from_now = moment(job.value.creation_date).fromNow()"
         )
           | &nbsp;&mdash; posted {{ from_now }}

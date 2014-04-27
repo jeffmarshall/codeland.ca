@@ -19,7 +19,7 @@ div(ng-controller="user")
       #navbar-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav
           li(ng-class="{ active: Page.name() == 'events' }")
-            a(href="/events") Events
+            a(href="/") Events
           li(ng-class="{ active: Page.name() == 'jobs' }")
             a(href="/jobs") Jobs
         ul.auth.nav.navbar-nav.navbar-right(ng-show="session.userCtx")
@@ -50,7 +50,7 @@ div(ng-controller="user")
                 a(role="menuitem" tabindex="-1" ng-click="logout()") Logout
 
   #authModal.modal.fade
-    .modal-dialog
+    .modal-dialog.modal-sm
       .modal-content
         ul.auth.nav.nav-tabs
           li.active
@@ -68,23 +68,29 @@ div(ng-controller="user")
                 .form-group(
                   ng-class="{ 'has-error': login_form.name.$invalid && login_form.name.$dirty }"
                 )
-                  label.control-label(for="login-username-input") Username
-                  input#login-username-input.form-control(
-                    type="text"
-                    name="name"
-                    required
-                    ng-model="user.name"
-                  )
+                  .input-group
+                    span.input-group-addon
+                      i.glyphicon.glyphicon-user
+                    input#login-username-input.form-control(
+                      type="text"
+                      name="name"
+                      required
+                      placeholder="Username"
+                      ng-model="user.name"
+                    )
                 .form-group(
                   ng-class="{ 'has-error': login_form.password.$invalid && login_form.password.$dirty }"
                 )
-                  label.control-label(for="login-password-input") Password
-                  input#login-password-input.form-control(
-                    name="password"
-                    type="password"
-                    required
-                    ng-model="user.password"
-                  )
+                  .input-group
+                    span.input-group-addon
+                      i.glyphicon.glyphicon-lock
+                    input#login-password-input.form-control(
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      required
+                      ng-model="user.password"
+                    )
               .modal-footer
                 a.btn.btn-default(data-dismiss="modal") Cancel
                 input#login-button.btn.btn-primary(
@@ -100,36 +106,49 @@ div(ng-controller="user")
                 .alert.alert-danger(ng-if="!!signup_failure")
                   span(ng-if="signup_failure.status == 409")
                     | This username is taken.
+                  span(
+                    ng-if="signup_failure.status == 403"
+                    ng-bind="signup_failure.data.reason"
+                  )
                 .form-group(
                   ng-class="{ 'has-error': (signup_form.name.$invalid && signup_form.name.$dirty) || signup_failure.status == 409 }"
                 )
-                  label.control-label(for="signup-username-input") Username
-                  input#signup-username-input.form-control(
-                    name="name"
-                    type="text"
-                    required
-                    ng-model="user.name"
-                  )
+                  .input-group
+                    span.input-group-addon
+                      i.glyphicon.glyphicon-user
+                    input#signup-username-input.form-control(
+                      name="name"
+                      type="text"
+                      placeholder="Username"
+                      required
+                      ng-model="user.name"
+                    )
                 .form-group(
                   ng-class="{ 'has-error': signup_form.password.$invalid && signup_form.password.$dirty }"
                 )
-                  label.control-label(for="signup-password-input") Password
-                  input#signup-password-input.form-control(
-                    name="password"
-                    type="password"
-                    required
-                    ng-model="user.password"
-                  )
+                  .input-group
+                    span.input-group-addon
+                      i.glyphicon.glyphicon-lock
+                    input#signup-password-input.form-control(
+                      name="password"
+                      type="password"
+                      required
+                      placeholder="Password"
+                      ng-model="user.password"
+                    )
                 .form-group(
                   ng-class="{ 'has-error': signup_form.email.$invalid && signup_form.email.$dirty }"
                 )
-                  label.control-label(for="signup-email-input") Email
-                  input#signup-email-input.form-control(
-                    name="email"
-                    type="email"
-                    required
-                    ng-model="user.email"
-                  )
+                  .input-group
+                    span.input-group-addon
+                      i.glyphicon.glyphicon-envelope
+                    input#signup-email-input.form-control(
+                      name="email"
+                      type="email"
+                      required
+                      placeholder="Email"
+                      ng-model="user.email"
+                    )
 
               .modal-footer
                 a.btn.btn-default(data-dismiss="modal") Cancel

@@ -1,6 +1,6 @@
 .container
   .page-header
-    h1 Events
+    h1 Upcoming Tech Events
 
   .toolbar.tabular
     form.search
@@ -18,18 +18,36 @@
 
 
 
-  ol.event-list.unstyled.async
-    li(ng-repeat="event in events.rows | filter:search_text", id="{{ event.id }}")
-      .name
-        a(href="/event/{{ event.id }}")
-          | {{ event.doc.name }}
-      .details.small
-        span.start(
-          ng-bind="moment(event.doc.start).calendar()"
-        )
-        time.timeago(
-          datetime="{{ parse_date(event.doc.creation_date) }}"
-          ng-init="from_now = moment(event.doc.creation_date).fromNow()"
-        )
-          | &mdash; posted {{ from_now }}
+  ol.events.unstyled.async
+    li.tabular(
+      ng-repeat="event in events.rows | filter:search_text"
+      id="{{ event.id }}"
+    )
+      div
+        .event-icon(ng-switch on="event.value.has_description")
+          i.glyphicon.glyphicon-flash(ng-switch-when="true")
+          i.glyphicon.glyphicon-link(ng-switch-when="false")
 
+      .event-details
+        .name(ng-switch on="event.value.has_description")
+          a(
+            ng-switch-when="true"
+            href="/event/{{ event.id }}"
+          )
+            | {{ event.value.name }}
+          a(
+            ng-switch-when="false"
+            href="{{ event.value.homepage }}"
+            target="_blank"
+          )
+            | {{ event.value.name }}
+
+        .setting.small
+          span.start(
+            ng-bind="moment(event.value.start).calendar()"
+          )
+          time.timeago(
+            datetime="{{ parse_date(event.value.creation_date) }}"
+            ng-init="from_now = moment(event.value.creation_date).fromNow()"
+          )
+            | &mdash; posted {{ from_now }}

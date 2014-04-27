@@ -29,7 +29,7 @@ include ../mixins/job-form
             i.glyphicon.glyphicon-chevron-left
             | &nbsp;Back
 
-        .btn-group(ng-if="session.userCtx.name == job.creator_name")
+        .btn-group(ng-if="session.userCtx.name == job.creator_name || (session.userCtx.roles.indexOf('_admin') >= 0)")
           .dropdown
             button.btn.btn-primary(data-toggle="dropdown")
               i.glyphicon.glyphicon-cog
@@ -71,6 +71,8 @@ include ../mixins/job-form
           h4.modal-title Editing '{{ job.position }}' Post
 
         .modal-body
+          .alert.alert-warning(ng-if="editing_failure") {{ editing_failure }}
+
           +job_form('job_draft', 'editJob')
 
         .modal-footer

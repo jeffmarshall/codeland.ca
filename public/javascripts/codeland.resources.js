@@ -11,7 +11,6 @@ angular.module('resources', ['ngResource', 'config'])
       update: { method: 'PUT' },
       view: {
         url: ':protocol//:server/:db/_design/:design_name/_view/:view_name',
-        params: { include_docs: true },
         isArray: false
       },
       get: {

@@ -7,6 +7,7 @@ mixin event_form(event_variable, form_name)
           type="text"
           name="name"
           required
+          ng-maxlength="75"
           placeholder="eg. Hacking Health, EdTech Montreal"
           ng-model=event_variable +".name"
         )
@@ -41,6 +42,7 @@ mixin event_form(event_variable, form_name)
         input#event-form-venue.form-control(
           type="text"
           placeholder="eg. Notman House, Brutopia"
+          ng-maxlength="75"
           ng-model=event_variable +".venue"
         )
 
@@ -58,8 +60,8 @@ mixin event_form(event_variable, form_name)
         textarea#event-form-description.form-control(
           name="description"
           ng-model=event_variable +".description"
-          placeholder="Give a brief summary of what the event is about, and what to expect."
-          required
+          placeholder="Optional. Leave blank to simply direct the user to the event homepage."
+          ng-maxlength="5000"
           rows="8"
         )
   .row
@@ -69,6 +71,7 @@ mixin event_form(event_variable, form_name)
         input#event-form-homepage.form-control(
           name="homepage"
           type="url"
+          ng-required="!description.length"
           placeholder="eg. http://montrealpython.org/"
           ng-model=event_variable +".homepage"
         )
@@ -83,15 +86,3 @@ mixin event_form(event_variable, form_name)
               ng-model=event_variable +".seeking_sponsors"
             )
             | &nbsp;&nbsp;This event could use some sponsors
-  .row
-    .col-md-12
-      .form-group(ng-class="{ 'has-error': "+ form_name +".city.$invalid && ("+ form_name +".city.$dirty || "+ form_name +".submitted) }")
-        label.control-label(for="event-form-city") City
-        select#event-form-city.form-control(
-          type="text"
-          name="city"
-          required
-          ng-model=event_variable +".city"
-        )
-          option(value="mtl") Montreal
-          option(value="to") Toronto

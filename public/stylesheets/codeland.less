@@ -4,8 +4,38 @@
 
 .async:empty {
   height: 8em;
+  position: relative;
+  text-align: center;
 
   &.async-lg { height: 30em }
+
+  &.events::before, &.jobs::before {
+    color: @gray-lighter;
+    font-size: @font-size-h3;
+    font-family: @headings-font-family;
+    font-weight: @headings-font-weight;
+    position: relative;
+    top: 50%;
+    .translate(0, -50%);
+
+    &.async-lg {
+      line-height: 30em;
+    }
+  }
+
+  &.events::before {
+    content: "No Events";
+  }
+
+  &.jobs::before {
+    content: "No Jobs";
+  }
+}
+
+.center {
+  position: relative;
+  top: 50%;
+  .translate(0, -50%);
 }
 
 .unstyled {
@@ -17,13 +47,14 @@
   padding: 15px 15px 0;
 }
 
-.job-list, .event-list {
+.jobs, .events {
   border-top: 1px solid @page-header-border-color;
   margin: @line-height-computed 0;
 
   li {
     border-bottom: 1px solid @page-header-border-color;
     padding: 1em 0;
+    .clearfix();
 
     &:last-child {
       border-bottom: 0;
@@ -31,9 +62,33 @@
     }
 
     &:hover {
+      .event-icon {
+        // border-color: @brand-primary;
+        // color: @brand-primary;
+      }
+
       time {
         visibility: visible;
         .opacity(1);
+      }
+    }
+
+    .event-details {
+      width: 100%;
+    }
+
+    .event-icon {
+      color: @gray-light;
+      height: 38px;
+      width: 38px;
+      line-height: 36px;
+      margin: 0 1em;
+      text-align: center;
+      border: 2px solid @gray-lighter;
+      .border-radius(38px);
+
+      @media (max-width: @screen-sm-min){
+        margin: 0 1em 0 0;
       }
     }
 

@@ -5,9 +5,10 @@
         .row
           .col-sm-2
             span.choose-city
-              select(ng-model="selected_city")
-                option(value="mtl") Montreal
-                option(value="to") Toronto
+              select(
+                ng-model="selected_city"
+                ng-options="key as value for (key, value) in cities"
+              )
           .col-sm-10
             span.contact.hidden-xs.pull-right
               | Questions? Comments?&nbsp;

@@ -37,6 +37,7 @@ if ('development' == app.get('env')) {
 
 app.post('/api/pay', function(req, res){
   var token = req.body.token;
+  var job = req.body.job;
 
   codeland_db.insert(job, function(couchdb_error, couchdb_response){
     if (couchdb_error) return res.json({
@@ -74,7 +75,13 @@ app.post('/api/pay', function(req, res){
 });
 
 app.all('*', function(req, res){
-  res.render('index', {
+  if (req.headers.host.split('.').length == 2){
+    return res.render('index', {
+      cities: config.cities
+    });
+  }
+
+  res.render('codeland', {
     stripe_pk: config.stripe_pk,
     db_host: config.db_host,
     db_name: config.db_name,

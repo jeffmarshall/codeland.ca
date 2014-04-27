@@ -16,6 +16,9 @@ angular.module('job', [
         var $pay_button = $('#pay-button');
         $pay_button.button('loading');
 
+        delete $scope.couchdb_error;
+        delete $scope.stripe_error;
+
         function errorButtonFlash(){
           $pay_button.button('error').addClass('btn-danger');
 
@@ -35,40 +38,35 @@ angular.module('job', [
           return;
         }
 
+        var job = {
+          position: $scope.job.position,
+          employer: $scope.job.employer,
+          city: $scope.job.city,
+          instructions: $scope.job.instructions,
+          neighborhood: $scope.job.neighborhood,
+          description: $scope.job.description
+        }
+
+        job.creation_date = (new Date()).getTime();
+        job.creator_name = $rootScope.session.userCtx.name;
+        job.type = 'job';
+
         server.pay({
+          job: job,
           username: $rootScope.session.userCtx.name,
           token: response.id
         }, function(response){
-          if (response.error){
-            $scope.payment_error = response.error;
-            errorButtonFlash();
-
-            return
+          if (response.stripe_error){
+            $scope.stripe_error = response.stripe_error;
+            return errorButtonFlash();
           }
 
-          var job = {
-            position: $scope.job.position,
-            employer: $scope.job.employer,
-            city: $scope.job.city,
-            instructions: $scope.job.instructions,
-            neighborhood: $scope.job.neighborhood,
-            stripe_payment_id: response.id,
-            description: $scope.job.description
+          if (response.couchdb_error){
+            $scope.couchdb_error = response.couchdb_error;
+            return errorButtonFlash();
           }
 
-          job.creation_date = (new Date()).getTime();
-          job.creator_name = $rootScope.session.userCtx.name;
-          job.type = 'job';
-
-          db.save(job, function(result){
-            delete $scope.job.failure;
-            $scope.job = {};
-            $location.url('/job/'+ result.id);
-          }, function(failure){
-            if (failure.data && failure.data.reason){
-              $scope.job.failure_reason = failure.data.reason;
-            }
-          });
+          $location.url('/job/'+ response.job_id);
         }, function(error){});
       }
     }
@@ -168,6 +166,8 @@ angular.module('job', [
           db.update($scope.job_draft, function(success){
             $editing_modal.modal('hide');
             get_job();
+          }, function(failure){
+            $scope.editing_failure = failure;
           });
         }
 
