@@ -2,5 +2,9 @@
   "stripe_sk": "asdfSTRIPESECRETKEY",
   "stripe_pk": "asdfSTRIPEPUBLICKEY",
   "db_host": "codeland.ca:5984",
-  "db_name": "codeland"
+  "db_name": "codeland",
+  "cities": {
+    "mtl": "Montreal",
+    "to": "Toronto"
+  }
 }
