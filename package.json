@@ -9,11 +9,12 @@
     "express": "3.4.8",
     "jade": "*",
     "less-middleware": "*",
+    "lodash": "^2.4.1",
+    "nano": "^5.7.1",
     "stripe": "^2.4.4"
   },
   "description": "Canadian Programmer Jobs and Events",
   "main": "app.js",
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "https://github.com/classy/codeland.ca.git"

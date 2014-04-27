@@ -74,9 +74,15 @@ include ../mixins/job-form
             data-target="#authModal"
           ) Login or Sign-up&nbsp;
           | to continue.
-        .alert.alert-danger(ng-if="payment_error")
-          p {{ payment_error.message }}
-          button.close(data-dismiss="alert" aria-hidden="true") &times;
+
+        .alert.alert-danger(
+          ng-if="stripe_error"
+        ) {{ stripe_error.message }}
+
+        .alert.alert-danger(
+          ng-if="couchdb_error"
+        ) {{ couchdb_error.message }}
+
         .btn-toolbar.pull-right
           a.btn.btn-default(href="/") Cancel
           input#pay-button.btn.btn-primary(
